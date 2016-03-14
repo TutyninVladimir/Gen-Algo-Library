@@ -23,20 +23,18 @@ abstract class GraphCreature extends Creature
 		for(i=0;i<n;i++)
 		{
 			if (tmp[a[i]]==0) tmp[a[i]]=1;
-			else a[i]=0;
+			else a[i]=-1;
 		}
-		int p1=0;
 		int p2=0;
-		while(p1<n)
+		for(i=0;i<n;i++)
 		{
-			if(a[p1]==0)
+			if(a[i]==-1)
 			{
-				while(tmp[p2]!=0&&p2<n)
+				while(tmp[p2]!=0)
 					p2++;
 				tmp[p2]=1;
-				a[p1]=p2;
+				a[i]=p2;
 			}
-			p1++;
 		}
 	}
 	public void generate()
@@ -47,7 +45,7 @@ abstract class GraphCreature extends Creature
 		long c=1+((int)Math.random()*1000);
 		for(i=0;i<n;i++)
 		{
-			this.a[i]=(int) (((a*i*i+b*i+c)%n)+1);
+			this.a[i]=(int) (((a*i*i+b*i+c)%n));
 		}
 		regenerate();
 	}
@@ -72,7 +70,7 @@ abstract class GraphCreature extends Creature
 			tmp[i]=this.a[i];
 		return tmp;
 	}
-	public int getlenght()
+	public int getlength()
 	{
 		return this.n;
 	}
@@ -85,7 +83,7 @@ abstract class GraphCreature extends Creature
 		this.n=n;
 		a = new int[n];
 		for(int i=0;i<n;i++)
-			a[i]=i+1;
+			a[i]=i;
 		this.c = c;
 		this.m = m;
 	}
@@ -105,8 +103,8 @@ class SimpleGraphCross extends GraphCrossFunction
 	void cross(GraphCreature a, GraphCreature b)
 	{
 		int tmp,i;
-		int q1=1+((int)Math.random()*(a.getlenght()-1));
-		int q2=1+((int)Math.random()*(a.getlenght()-1));
+		int q1=1+((int)Math.random()*(a.getlength()-1));
+		int q2=1+((int)Math.random()*(a.getlength()-1));
 		if (q1==q2) q2++;
 		if (q1>q2)
 		{
@@ -124,7 +122,7 @@ class SimpleGraphCross extends GraphCrossFunction
 			olda[i]=oldb[i];
 			oldb[i]=tmp;			
 		}
-		for(i=q2;i<a.getlenght();i++)
+		for(i=q2;i<a.getlength();i++)
 		{
 			tmp=olda[i];
 			olda[i]=oldb[i];
@@ -142,9 +140,9 @@ class ExtendedGraphCross extends GraphCrossFunction
 	void cross(GraphCreature a, GraphCreature b)
 	{
 		int tmp,i,n;
-		n=a.getlenght();
-		int q1=1+((int)Math.random()*(a.getlenght()-1));
-		int q2=1+((int)Math.random()*(a.getlenght()-1));
+		n=a.getlength();
+		int q1=1+((int)Math.random()*(a.getlength()-1));
+		int q2=1+((int)Math.random()*(a.getlength()-1));
 		if (q1==q2) q2++;
 		if (q1>q2)
 		{
@@ -237,7 +235,7 @@ class OneChangeMutation extends GraphMutationFunction
 {
 	void mutate(GraphCreature a)
 	{
-		int m=a.getlenght();
+		int m=a.getlength();
 		int q=(int)(Math.random()*(m-1));
 		int[] olda=a.get();
 		int tmp=olda[q];
@@ -262,8 +260,8 @@ class ExampleGraphCreature extends GraphCreature
 
 class TravelerGraphCreature extends GraphCreature
 {
-	double map[][];
-	void init(int n, double map[][])
+	private double map[][];
+	public void init(int n, double map[][])
 	{
 		int i,j;
 		this.map = new double[n][n];
@@ -287,5 +285,84 @@ class TravelerGraphCreature extends GraphCreature
 		}
 		sum+=map[a[n-1]][a[0]];
 		return 0-sum;
+	}
+}
+
+class PaintingGraphCreature extends GraphCreature
+{
+	private boolean map[][];
+	public void init(int n, boolean map[][])
+	{
+		int i,j;
+		this.map = new boolean[n][n];
+		for(i=0;i<n;i++)
+			for(j=0;j<n;j++)
+			{
+				this.map[i][j]=map[i][j];
+			}
+	}
+	public PaintingGraphCreature(int n, GraphCrossFunction c, GraphMutationFunction m) 
+	{
+		super(n, c, m);
+	}
+	double fit() 
+	{
+		int i,j;
+		int[] colors=new int[n+1];
+		boolean[] use=new boolean[n+1]; 
+		for(i=0;i<n;i++)
+			colors[i]=0;
+		int num=0;		
+		for(i=0;i<n;i++)
+		{
+			for(j=1;j<=num;j++)
+				use[i]=true;
+			for(j=0;j<i;j++)
+				if (map[a[i]][a[j]]==true)
+				{
+					use[colors[j]]=false;
+				}
+			for(j=1;j<=num;j++)
+			{
+				if (colors[i]==0&&use[j]==true)
+					colors[i]=j;
+			}
+			if (colors[j]==0)
+			{
+				num++;
+				colors[j]=num;
+			}
+		}
+		return n-num;
+	}
+	int[] doPaint()
+	{
+		int i,j;
+		int[] colors=new int[n];
+		boolean[] use=new boolean[n]; 
+		for(i=0;i<n;i++)
+			colors[i]=0;
+		int num=0;		
+		for(i=0;i<n;i++)
+		{
+			for(j=1;j<=num;j++)
+				use[i]=true;
+			for(j=0;j<i;j++)
+				if (map[a[i]][a[j]]==true)
+				{
+					use[colors[j]]=false;
+				}
+			for(j=1;j<=num;j++)
+			{
+				if (colors[i]==0&&use[j]==true)
+					colors[i]=j;
+			}
+			if (colors[j]==0)
+			{
+				num++;
+				colors[j]=num;
+			}
+		}
+		return colors;
 	}
 }
