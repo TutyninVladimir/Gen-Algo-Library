@@ -269,6 +269,34 @@ class PopulationExample
 {
 	public static void main(String[] args)
     {
+		GraphCrossFunction scf = new ExtendedGraphCross();
+		GraphMutationFunction smf = new OneChangeMutation();
+		PaintingGraphCreature cr = new PaintingGraphCreature(10, scf, smf);
+		boolean map[][] = new boolean[10][10];
+		for(int i=0;i<10;i++)
+		{
+			for(int j=0;j<10;j++)
+			{
+				if (i!=j) map[i][j]=true;
+				else map[i][j]=false;
+			}
+		}
+		cr.init(10, map);
+		Choosing rc = new RandomChoosing();
+		Selecting ms = new MaxSelecting();
+		Stopping st = new IterationsStopping(100);
+		Population p = new Population(1000, 0.25, 0.25, cr, rc, ms, st);		
+		p.generateCreatures();
+		p.run();
+		double x=p.getAnswer();
+		System.out.printf("%f\n",cr.getlength()-x);
+    }
+}
+/*
+class PopulationExample
+{
+	public static void main(String[] args)
+    {
 		SimpleCrossFunction scf = new OnePointCross();
 		SimpleMutationFunction smf = new OneBitMutation();
 		Creature cr = new MyCreature(10, scf, smf);
@@ -289,7 +317,7 @@ class PopulationExample
 		System.out.printf("time: %d\n",traceTime/1000);
 
     }
-}
+}*/
 
 /*class PopulationExample 
 {
