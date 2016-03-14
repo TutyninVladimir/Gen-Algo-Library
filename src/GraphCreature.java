@@ -2,15 +2,15 @@ package Genetics;
 
 abstract class GraphCreature extends Creature
 {
-	private int n;
-	private int a[];
-	private GraphCrossFunction c;
-	private GraphMutationFunction m;
-	abstract double fit(int[] x);
+	protected int n;
+	protected int a[];
+	protected GraphCrossFunction c;
+	protected GraphMutationFunction m;
+	abstract double fit();
 	
 	public double fitness()
 	{
-		return this.fit(a);
+		return this.fit();
 	}
 	public void regenerate()
 	{
@@ -253,9 +253,39 @@ class ExampleGraphCreature extends GraphCreature
 	{
 		super(n, c, m);
 	}
-	double fit(int x[])
+	double fit()
 	{
 		//TO DO: write function.
-		return x[0];
+		return 0;
+	}
+}
+
+class TravelerGraphCreature extends GraphCreature
+{
+	double map[][];
+	void init(int n, double map[][])
+	{
+		int i,j;
+		this.map = new double[n][n];
+		for(i=0;i<n;i++)
+			for(j=0;j<n;j++)
+			{
+				this.map[i][j]=map[i][j];
+			}
+	}
+	public TravelerGraphCreature(int n, GraphCrossFunction c, GraphMutationFunction m) 
+	{
+		super(n, c, m);
+	}
+	double fit() 
+	{
+		int i;
+		double sum=0.0;
+		for(i=0;i<n-1;i++)
+		{
+			sum+=map[a[i]][a[i+1]];
+		}
+		sum+=map[a[n-1]][a[0]];
+		return 0-sum;
 	}
 }
