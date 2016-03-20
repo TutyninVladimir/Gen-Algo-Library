@@ -39,6 +39,7 @@ abstract class GraphCreature extends Creature
 	}
 	public void generate()
 	{
+		a = new int[n];
 		int i;
 		long a=1+((int)Math.random()*25);
 		long b=1+((int)Math.random()*1000);
@@ -327,10 +328,10 @@ class PaintingGraphCreature extends GraphCreature
 				if (colors[i]==0&&use[j]==true)
 					colors[i]=j;
 			}
-			if (colors[j]==0)
+			if (colors[i]==0)
 			{
 				num++;
-				colors[j]=num;
+				colors[i]=num;
 			}
 		}
 		return n-num;
