@@ -1,6 +1,8 @@
 package Genetics;
 
 //import java.math.*;
+import java.io.*;
+import java.util.*;
 
 class Population
 {
@@ -154,6 +156,22 @@ class Population
 		}
 		return x;
 	}
+	public Creature getAnswerCreature()
+	{
+		double x=cr[0].fitness();
+		int q=0;
+		double tmp;
+		for(int i=0;i<cnt;i++)
+		{
+			tmp=cr[i].fitness();
+			if (tmp>x)
+			{
+				x=tmp;
+				q=i;
+			}
+		}
+		return cr[q];
+	}
 	public void generateCreatures()
 	{
 		for(int i=0;i<cnt;i++)
@@ -273,23 +291,40 @@ class PopulationExample
 		GraphMutationFunction smf = new OneChangeMutation();
 		PaintingGraphCreature cr = new PaintingGraphCreature(10, scf, smf);
 		boolean map[][] = new boolean[10][10];
-		for(int i=0;i<10;i++)
+		File file = new File("input.txt");
+		try 
 		{
-			for(int j=0;j<10;j++)
+			int tmp;
+			Scanner scan = new Scanner(file);
+			for(int i=0;i<10;i++)
 			{
-				if (i!=j) map[i][j]=true;
-				else map[i][j]=false;
+				for(int j=0;j<10;j++)
+				{
+					tmp = scan.nextInt();
+					if (tmp==0) map[i][j]=false;
+					else map[i][j]=true;
+				}
 			}
+			scan.close();
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
 		}
 		cr.init(10, map);
 		Choosing rc = new RandomChoosing();
 		Selecting ms = new MaxSelecting();
-		Stopping st = new IterationsStopping(100);
-		Population p = new Population(1000, 0.25, 0.25, cr, rc, ms, st);		
+		Stopping st = new MaxNotChangedStopping(25);
+		Population p = new Population(10000, 0.25, 0.25, cr, rc, ms, st);		
 		p.generateCreatures();
 		p.run();
 		double x=p.getAnswer();
-		System.out.printf("%f\n",cr.getlength()-x);
+		PaintingGraphCreature crr=(PaintingGraphCreature) p.getAnswerCreature();
+		for(int i=0;i<crr.n;i++)
+		{
+			System.out.printf("%d ", crr.a[i]);
+		}
+		System.out.printf("\n%f\n",cr.getlength()-x);
     }
 }
 /*
