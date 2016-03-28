@@ -13,6 +13,13 @@ abstract class BackpackCreature extends Creature
 	{
 		return this.fit();
 	}
+	public void copyData(Creature a)
+	{
+		((BackpackCreature)a).num_items=this.num_items;
+		((BackpackCreature)a).num_of_use=this.num_of_use;
+		for (int i=0;i<this.num_items;i++)
+			((BackpackCreature)a).items[i]=this.items[i];
+	}
 	public void regenerate()
 	{
 		int i;
@@ -24,7 +31,7 @@ abstract class BackpackCreature extends Creature
 	public void generate()
 	{
 		int i;
-		int[] items = new int[num_items];
+		items = new int[num_items];
 		for(i=0;i<num_items;i++)
 		{
 			items[i]=(int)(Math.random()*2*num_of_use);
@@ -174,6 +181,8 @@ class SimpleBackpackCreature extends BackpackCreature
 	void init(int max_weight, int cost[], int weight[])
 	{
 		int i;
+		costs = new int[num_items];
+		weights = new int[num_items];
 		if (max_weight<0)
 			max_weight=0;
 		this.max_weight=max_weight;

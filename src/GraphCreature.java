@@ -12,6 +12,12 @@ abstract class GraphCreature extends Creature
 	{
 		return this.fit();
 	}
+	public void copyData(Creature a)
+	{
+		((GraphCreature)a).n=this.n;
+		for (int i=0;i<n;i++)
+			((GraphCreature)a).a[i]=this.a[i];
+	}
 	public void regenerate()
 	{
 		int i;
@@ -262,15 +268,24 @@ class ExampleGraphCreature extends GraphCreature
 class TravelerGraphCreature extends GraphCreature
 {
 	private double map[][];
+	private double mx;
 	public void init(int n, double map[][])
 	{
 		int i,j;
 		this.map = new double[n][n];
+		mx=0.0;
+		double tmp;
 		for(i=0;i<n;i++)
+		{
+			tmp=0.0;
 			for(j=0;j<n;j++)
 			{
 				this.map[i][j]=map[i][j];
+				if (map[i][j]>tmp)
+					tmp=map[i][j];
 			}
+			mx+=tmp;
+		}
 	}
 	public TravelerGraphCreature(int n, GraphCrossFunction c, GraphMutationFunction m) 
 	{
@@ -285,7 +300,7 @@ class TravelerGraphCreature extends GraphCreature
 			sum+=map[a[i]][a[i+1]];
 		}
 		sum+=map[a[n-1]][a[0]];
-		return 0-sum;
+		return mx-sum;
 	}
 }
 

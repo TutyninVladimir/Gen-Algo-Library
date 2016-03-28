@@ -2,15 +2,20 @@ package Genetics;
 
 abstract class SimpleCreature extends Creature
 {
-	private int bytes;
-	private int q;
-	private SimpleCrossFunction c;
-	private SimpleMutationFunction m;
-	abstract double fit(int x);
+	protected int bytes;
+	protected int q;
+	protected SimpleCrossFunction c;
+	protected SimpleMutationFunction m;
+	abstract double fit();
 	
 	public double fitness()
 	{
-		return this.fit(q);
+		return this.fit();
+	}
+	public void copyData(Creature a)
+	{
+		((SimpleCreature)a).bytes=this.bytes;
+		((SimpleCreature)a).q=this.q;
 	}
 	public void generate()
 	{
@@ -119,11 +124,16 @@ class OneBitMutation extends SimpleMutationFunction
 
 class ExampleSimpleCreature extends SimpleCreature
 {
+	int x;
+	void init(int x)
+	{
+		this.x=x;
+	}
 	public ExampleSimpleCreature(int bytes, SimpleCrossFunction c, SimpleMutationFunction m) 
 	{
 		super(bytes, c, m);
 	}
-	double fit(int x)
+	double fit()
 	{
 		//TO DO: write function.
 		return x;

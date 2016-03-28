@@ -48,8 +48,10 @@ class Population
 	}
 	private void copyTo(int a, int b)
 	{
-		cm.setCreature(cr[a]);
-		cr[b] = cm.makeCreature();
+		//Copy data from a to b
+		cr[a].copyData(cr[b]);
+		//cm.setCreature(cr[a]);
+		//cr[b] = cm.makeCreature();
 	}
 	private void mutations(int n1, int n2)
 	{
@@ -214,6 +216,7 @@ abstract class Creature implements Cloneable
     	return copy;
 	}
     abstract double fitness();
+    abstract void copyData(Creature cr);
     abstract void cross(Creature cr);
     abstract void mutation();
     abstract void generate();
@@ -234,55 +237,95 @@ abstract class Stopping
 	abstract boolean isEnding(int n, Creature[] cr);
 }
 
-class MyStopping extends Stopping
+class PopulationExample 
 {
-	int turns;
-	int turn;
-	double lastMax;
-	public boolean isEnding(int n, Creature[] cr)
-	{
-		this.turn++;
-		double thisMax=cr[0].fitness();
-		double tmp;
-		for(int i=1;i<n;i++)
+	public static void main(String[] args)
+    {
+		BackpackCrossFunction scf = new SimpleBackpackCross();
+		BackpackMutationFunction smf = new OneItemMutation();
+		SimpleBackpackCreature cr = new SimpleBackpackCreature(20, 1, scf, smf);
+		int weights[] = new int[20];
+		int costs[] = new int[20];
+		File file = new File("input.txt");
+		try 
 		{
-			tmp=cr[i].fitness();
-			if (tmp>thisMax)
-				thisMax=tmp;
-		}
-		if (thisMax!=lastMax)
+			Scanner scan = new Scanner(file);
+			for(int i=0;i<20;i++)
+				weights[i] = scan.nextInt();
+			for(int i=0;i<20;i++)
+				costs[i] = scan.nextInt();
+			scan.close();
+		} 
+		catch (FileNotFoundException e) 
 		{
-			lastMax=thisMax;
-			this.turn=0;
+			e.printStackTrace();
 		}
-		if (this.turn>=this.turns)
-			return true;
-		else
-			return false;		
-	}
-	public MyStopping(int turns)
-	{
-		if (turns<1)
-			turns=1;
-		this.turns=turns;
-		this.turn=0;
-		this.lastMax=0;
-	}
+		cr.init(100, weights, costs);
+		Choosing rc = new RandomChoosing();
+		Selecting ms = new MaxSelecting();
+		Stopping st = new MaxNotChangedStopping(25);
+		Population p = new Population(2500, 0.25, 0.25, cr, rc, ms, st);		
+		p.generateCreatures();
+		p.run();
+		double x=p.getAnswer();
+		System.out.printf("%f\n", x);
+		SimpleBackpackCreature crr=(SimpleBackpackCreature) p.getAnswerCreature();
+		int[] answer = new int[20];
+		answer = crr.getitems();
+		for (int i=0;i<20;i++)
+			System.out.printf("%d", answer[i]);
+		//System.out.printf("%f", (inputs[0][0]*inputs[0][0]+inputs[0][1]+inputs[0][2])/3.0);
+		//System.out.printf("\n%f\n",cr.getlength()-x);
+    }
 }
 
-class MyCreature extends SimpleCreature
+/*class PopulationExample 
 {
-	public MyCreature(int bytes, SimpleCrossFunction c, SimpleMutationFunction m) 
-	{
-		super(bytes, c, m);
-	}
-	double fit(int x)
-	{
-		//return x;
-		return (1+Math.log10(2*x+1)/(2+Math.sin(x)));
-	}
-}
+	public static void main(String[] args)
+    {
+		int[] layers={3,3,3,1};
+		NeuroCrossFunction scf = new SimpleNeuroCross();
+		NeuroMutationFunction smf = new OneWeightMutation();
+		SimpleNeuroCreature cr = new SimpleNeuroCreature(4, layers, scf, smf);
+		double[][] inputs= new double[100][3];
+		double[][] outputs= new double[100][1];
+		for(int i=0;i<100;i++)
+		{
+			inputs[i][0]=Math.random();
+			inputs[i][1]=Math.random();
+			inputs[i][2]=Math.random();
+			outputs[i][0]=(inputs[i][0]*inputs[i][0]+inputs[i][1]+inputs[i][2])/3.0;
+		}
+		inputs[0][0]=0.0;
+		inputs[0][1]=0.0;
+		inputs[0][2]=0.0;
+		outputs[0][0]=0.0;
+		inputs[99][0]=1.0;
+		inputs[99][1]=1.0;
+		inputs[99][2]=1.0;
+		outputs[99][0]=1.0;
+		cr.init(100, inputs, outputs);
+		Choosing rc = new RandomChoosing();
+		Selecting ms = new MaxSelecting();
+		Stopping st = new MaxNotChangedStopping(25);
+		Population p = new Population(2500, 0.25, 0.25, cr, rc, ms, st);		
+		p.generateCreatures();
+		p.run();
+		double x=p.getAnswer();
+		System.out.printf("%f\n", x);
+		SimpleNeuroCreature crr=(SimpleNeuroCreature) p.getAnswerCreature();
+		double[] answer = new double[1];
+		inputs[0][0]=0.5;
+		inputs[0][1]=0.65;
+		inputs[0][2]=0.6;
+		answer = crr.solve(inputs[0]);
+		System.out.printf("%f\n", answer[0]);
+		System.out.printf("%f", (inputs[0][0]*inputs[0][0]+inputs[0][1]+inputs[0][2])/3.0);
+		//System.out.printf("\n%f\n",cr.getlength()-x);
+    }
+}*/
 
+/*
 class PopulationExample 
 {
 	public static void main(String[] args)
@@ -326,7 +369,8 @@ class PopulationExample
 		}
 		System.out.printf("\n%f\n",cr.getlength()-x);
     }
-}
+}*/
+
 /*
 class PopulationExample
 {

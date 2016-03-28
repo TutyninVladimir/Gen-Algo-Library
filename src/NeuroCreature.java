@@ -13,6 +13,16 @@ abstract class NeuroCreature extends Creature
 	{
 		return this.fit();
 	}
+	public void copyData(Creature a)
+	{
+		((NeuroCreature)a).num_layers=this.num_layers;
+		for (int i=0;i<this.num_layers;i++)
+			((NeuroCreature)a).layer[i]=this.layer[i];
+		for(int i=0;i<num_layers-1;i++)
+			for(int j=0;j<layer[i];j++)
+				for(int k=0;k<layer[i+1];k++)
+					((NeuroCreature)a).w[i][j][k]=this.w[i][j][k];
+	}
 	public void generate()
 	{
 		int i,j,k;
@@ -142,7 +152,7 @@ class SimpleNeuroCross extends NeuroCrossFunction
 		}
 		int q=(int)(Math.random()*n);
 		int tmp=0;
-		for(i=0;i<=a.num_layers-1;i++)
+		for(i=0;i<a.num_layers-1;i++)
 			for(j=0;j<a.layer[i];j++)
 				for(k=0;k<a.layer[i+1];k++)
 				{
@@ -158,6 +168,8 @@ class SimpleNeuroCross extends NeuroCrossFunction
 					}
 					tmp++;
 				}
+		a.generate();
+		b.generate();
 		a.setweight(newa);
 		b.setweight(newb);
 	}
@@ -167,7 +179,7 @@ class OneWeightMutation extends NeuroMutationFunction
 {
 	void mutate(NeuroCreature a)
 	{
-		int i,j,k,n=0;
+		int i,j,k,l,n=0;
 		for(i=0;i<a.num_layers-1;i++)
 		{
 			n+=a.layer[i]*a.layer[i+1];
@@ -175,16 +187,16 @@ class OneWeightMutation extends NeuroMutationFunction
 		int q=(int)(Math.random()*n);
 		int tmp=0;
 		double[][][] olda=a.getweight();
-		for(i=0;i<=a.num_layers-1;i++)
+		for(i=0;i<a.num_layers-1;i++)
 			for(j=0;j<a.layer[i];j++)
 				for(k=0;k<a.layer[i+1];k++)
 				{
 					if (tmp==q)
 					{
 						double tmp2=olda[i][j][k];
-						int tmp3=0;
+						double tmp3=1.0;
 						int rnd=(int)(Math.random()*20);
-						for(i=1;i<=rnd;i++)
+						for(l=1;l<=rnd;l++)
 						{
 							tmp2*=2;
 							tmp3/=2;
@@ -227,9 +239,11 @@ class SimpleNeuroCreature extends NeuroCreature
 	void init(int n, double inputs[][], double outputs[][])
 	{
 		examples=n;
-		//Ğ§Ğ¸ÑĞ»Ğ¾ Ğ²Ñ…Ğ¾Ğ´Ğ¾Ğ² Ñ€Ğ°Ğ²Ğ½ÑĞµÑ‚ÑÑ Ñ‡Ğ¸ÑĞ»Ñƒ Ğ½ĞµĞ¹Ñ€Ğ¾Ğ½Ğ¾Ğ² Ğ¿ĞµÑ€Ğ²Ğ¾Ğ³Ğ¾ ÑĞ»Ğ¾Ñ, Ñ‡Ğ¸ÑĞ»Ğ¾ Ğ²Ñ‹Ñ…Ğ¾Ğ´Ğ¾Ğ² - Ğ¿Ğ¾ÑĞ»ĞµĞ´Ğ½ĞµĞ³Ğ¾
+		in = new double[n][this.layer[0]];
+		out = new double[n][this.layer[num_layers-1]];
+		//×èñëî âõîäîâ ğàâíÿåòñÿ ÷èñëó íåéğîíîâ ïåğâîãî ñëîÿ, ÷èñëî âûõîäîâ - ïîñëåäíåãî
 		int i,j;
-		for(i=1;i<=n;i++)
+		for(i=0;i<n;i++)
 		{
 			for(j=0;j<this.layer[0];j++)
 			{
@@ -264,7 +278,7 @@ class SimpleNeuroCreature extends NeuroCreature
 				{
 					neuro[i][j]=0.0;
 					for(k=0;k<layer[i-1];k++)
-						neuro[i][j]+=neuro[i-1][k];
+						neuro[i][j]+=neuro[i-1][k]*w[i-1][k][j];
 					neuro[i][j]/=layer[i-1];
 				}
 			l_err=0.0;
@@ -272,6 +286,26 @@ class SimpleNeuroCreature extends NeuroCreature
 				l_err+=Math.abs(neuro[num_layers-1][i]-out[c][i]);
 			err+=l_err;
 		}
-		return layer[num_layers-1]-err;
+		return layer[num_layers-1]*examples-err;
+	}
+	double[] solve(double input[])
+	{
+		int i,j,k;
+		double neuro[][]= new double[this.num_layers][];
+		for(i=0;i<num_layers;i++)
+		{
+			neuro[i]=new double[this.layer[i]];
+		}
+		for(i=0;i<layer[0];i++)
+			neuro[0][i]=input[i];
+		for(i=1;i<num_layers;i++)
+			for(j=0;j<layer[i];j++)
+			{
+				neuro[i][j]=0.0;
+				for(k=0;k<layer[i-1];k++)
+					neuro[i][j]+=neuro[i-1][k]*w[i-1][k][j];
+				neuro[i][j]/=layer[i-1];
+			}
+		return neuro[num_layers-1];
 	}
 }
