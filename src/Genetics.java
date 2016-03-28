@@ -260,7 +260,7 @@ class PopulationExample
 		{
 			e.printStackTrace();
 		}
-		cr.init(100, weights, costs);
+		cr.init(15, weights, costs);
 		Choosing rc = new RandomChoosing();
 		Selecting ms = new MaxSelecting();
 		Stopping st = new MaxNotChangedStopping(25);
@@ -271,9 +271,10 @@ class PopulationExample
 		System.out.printf("%f\n", x);
 		SimpleBackpackCreature crr=(SimpleBackpackCreature) p.getAnswerCreature();
 		int[] answer = new int[20];
-		answer = crr.getitems();
+		answer = crr.getanswer();
 		for (int i=0;i<20;i++)
 			System.out.printf("%d", answer[i]);
+		System.out.printf("\n%d", p.getTurns());
 		//System.out.printf("%f", (inputs[0][0]*inputs[0][0]+inputs[0][1]+inputs[0][2])/3.0);
 		//System.out.printf("\n%f\n",cr.getlength()-x);
     }

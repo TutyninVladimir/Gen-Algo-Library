@@ -227,4 +227,27 @@ class SimpleBackpackCreature extends BackpackCreature
 		if (weight<=max_weight) return sum;
 		return 0;
 	}
+	int[] getanswer()
+	{
+		int i, weight=0, t_items[];
+		t_items = new int[num_items];
+		for(i=0;i<num_items;i++)
+		{
+			t_items[i]=items[i];
+			weight+=weights[i]*t_items[i];
+		}
+		int need_drop=weight-max_weight;
+		i=0;
+		while(need_drop>0&&i<num_items)
+		{
+			if (t_items[i]>0)
+			{
+				t_items[i]--;
+				need_drop-=weights[i];
+			}
+			if (t_items[i]==0)
+				i++;
+		}
+		return t_items;
+	}
 }
