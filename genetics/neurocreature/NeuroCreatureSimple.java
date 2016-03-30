@@ -5,7 +5,7 @@ public class NeuroCreatureSimple extends NeuroCreature
 	int examples;
 	double in[][];
 	double out[][];
-	void init(int n, double inputs[][], double outputs[][])
+	public void init(int n, double inputs[][], double outputs[][])
 	{
 		examples=n;
 		in = new double[n][this.layer[0]];

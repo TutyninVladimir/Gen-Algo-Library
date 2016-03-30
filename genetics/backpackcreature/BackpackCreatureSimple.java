@@ -5,7 +5,7 @@ public class BackpackCreatureSimple extends BackpackCreature
 	int max_weight;
 	int costs[];
 	int weights[];
-	void init(int max_weight, int cost[], int weight[])
+	public void init(int max_weight, int cost[], int weight[])
 	{
 		int i;
 		costs = new int[num_items];
