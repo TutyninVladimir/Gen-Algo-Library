@@ -37,4 +37,19 @@ public class GraphCreatureTraveler extends GraphCreature
 		sum+=map[a[n-1]][a[0]];
 		return mx-sum;
 	}
+	public double getAns()
+	{
+		int i;
+		double sum=0.0;
+		for(i=0;i<n-1;i++)
+		{
+			sum+=map[a[i]][a[i+1]];
+		}
+		sum+=map[a[n-1]][a[0]];
+		return sum;
+	}
+	public int[] doPath()
+	{
+		return a;
+	}
 }
