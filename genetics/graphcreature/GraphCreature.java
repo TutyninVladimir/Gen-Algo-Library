@@ -49,9 +49,9 @@ public abstract class GraphCreature extends Creature
 	{
 		a = new int[n];
 		int i;
-		long a=1+((int)Math.random()*25);
-		long b=1+((int)Math.random()*1000);
-		long c=1+((int)Math.random()*1000);
+		long a=1+((int)(Math.random()*25));
+		long b=1+((int)(Math.random()*1000));
+		long c=1+((int)(Math.random()*1000));
 		for(i=0;i<n;i++)
 		{
 			this.a[i]=(int) (((a*i*i+b*i+c)%n));

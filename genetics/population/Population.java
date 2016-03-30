@@ -1,5 +1,18 @@
 package genetics.population;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import genetics.choosing.ChoosingRandom;
+import genetics.graphcreature.GraphCreatureTraveler;
+import genetics.graphcreature.GraphCrossExtended;
+import genetics.graphcreature.GraphCrossFunction;
+import genetics.graphcreature.GraphMutationFunction;
+import genetics.graphcreature.GraphMutationOneChange;
+import genetics.selecting.SelectingMax;
+import genetics.stopping.StoppingMaxNotChanged;
+
 public class Population
 {
 	private int cnt;
@@ -286,27 +299,25 @@ class PopulationExample
     }
 }*/
 
-/*
+
 class PopulationExample 
 {
 	public static void main(String[] args)
     {
-		GraphCrossFunction scf = new ExtendedGraphCross();
-		GraphMutationFunction smf = new OneChangeMutation();
-		PaintingGraphCreature cr = new PaintingGraphCreature(10, scf, smf);
-		boolean map[][] = new boolean[10][10];
-		File file = new File("input.txt");
+		GraphCrossFunction scf = new GraphCrossExtended();
+		GraphMutationFunction smf = new GraphMutationOneChange();
+		GraphCreatureTraveler cr = new GraphCreatureTraveler(10, scf, smf);
+		double map[][] = new double[10][10];
+		File file = new File("input1.txt");
 		try 
 		{
-			int tmp;
+			//int tmp;
 			Scanner scan = new Scanner(file);
 			for(int i=0;i<10;i++)
 			{
 				for(int j=0;j<10;j++)
 				{
-					tmp = scan.nextInt();
-					if (tmp==0) map[i][j]=false;
-					else map[i][j]=true;
+					map[i][j] = scan.nextDouble();
 				}
 			}
 			scan.close();
@@ -316,21 +327,22 @@ class PopulationExample
 			e.printStackTrace();
 		}
 		cr.init(10, map);
-		Choosing rc = new RandomChoosing();
-		Selecting ms = new MaxSelecting();
-		Stopping st = new MaxNotChangedStopping(25);
+		Choosing rc = new ChoosingRandom();
+		Selecting ms = new SelectingMax();
+		Stopping st = new StoppingMaxNotChanged(25);
 		Population p = new Population(10000, 0.25, 0.25, cr, rc, ms, st);		
 		p.generateCreatures();
 		p.run();
-		double x=p.getAnswer();
-		PaintingGraphCreature crr=(PaintingGraphCreature) p.getAnswerCreature();
-		for(int i=0;i<crr.n;i++)
+		//double x=p.getAnswer();
+		GraphCreatureTraveler crr=(GraphCreatureTraveler) p.getAnswerCreature();
+		int[] a = crr.get();
+		for(int i=0;i<crr.getlength();i++)
 		{
-			System.out.printf("%d ", crr.a[i]);
+			System.out.printf("%d ", a[i]);
 		}
-		System.out.printf("\n%f\n",cr.getlength()-x);
+		//System.out.printf("\n%f\n",cr.getlength()-x);
     }
-}*/
+}
 
 /*
 class PopulationExample
