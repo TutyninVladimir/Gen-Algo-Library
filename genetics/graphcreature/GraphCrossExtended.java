@@ -47,14 +47,19 @@ public class GraphCrossExtended extends GraphCrossFunction
 		{
 			cnt[i]=0;
 		}
+		for(i=q1;i<q2;i++)
+		{
+			cnt[newa[i]]=1;
+		}
 		p1=q1;
 		for(i=0;i<q1;i++)
 		{
 			if (cnt[newa[i]]==0) cnt[newa[i]]=1;
 			else 
 			{
+				while(cnt[oldb[p1]]==1&&p1<q2) p1++;
 				newa[i]=oldb[p1];
-				p1++;
+				cnt[oldb[p1]]=1;
 			}
 		}
 		for(i=q2;i<n;i++)
@@ -62,22 +67,28 @@ public class GraphCrossExtended extends GraphCrossFunction
 			if (cnt[newa[i]]==0) cnt[newa[i]]=1;
 			else 
 			{
+				while(cnt[oldb[p1]]==1&&p1<q2) p1++;
 				newa[i]=oldb[p1];
-				p1++;
+				cnt[oldb[p1]]=1;
 			}
 		}
 		for(i=0;i<n;i++)
 		{
 			cnt[i]=0;
 		}
+		for(i=q1;i<q2;i++)
+		{
+			cnt[newa[i]]=1;
+		}
 		p1=q1;
 		for(i=0;i<q1;i++)
 		{
 			if (cnt[newb[i]]==0) cnt[newb[i]]=1;
 			else 
 			{
+				while(cnt[olda[p1]]==1&&p1<q2) p1++;
 				newb[i]=olda[p1];
-				p1++;
+				cnt[olda[p1]]=1;
 			}
 		}
 		for(i=q2;i<n;i++)
@@ -85,8 +96,9 @@ public class GraphCrossExtended extends GraphCrossFunction
 			if (cnt[newb[i]]==0) cnt[newb[i]]=1;
 			else 
 			{
+				while(cnt[olda[p1]]==1&&p1<q2) p1++;
 				newb[i]=olda[p1];
-				p1++;
+				cnt[olda[p1]]=1;
 			}
 		}
 		a.set(newa);
