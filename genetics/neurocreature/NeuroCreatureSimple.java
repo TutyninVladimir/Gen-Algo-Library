@@ -57,7 +57,7 @@ public class NeuroCreatureSimple extends NeuroCreature
 		}
 		return layer[num_layers-1]*examples-err;
 	}
-	double[] solve(double input[])
+	public double[] solve(double input[])
 	{
 		int i,j,k;
 		double neuro[][]= new double[this.num_layers][];
