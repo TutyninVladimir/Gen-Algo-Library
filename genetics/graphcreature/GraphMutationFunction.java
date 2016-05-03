@@ -1,6 +1,5 @@
 package genetics.graphcreature;
 
-public abstract class GraphMutationFunction
-{
+public abstract class GraphMutationFunction {
 	abstract void mutate(GraphCreature a);
 }

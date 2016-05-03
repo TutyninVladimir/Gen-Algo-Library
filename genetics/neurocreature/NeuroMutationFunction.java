@@ -1,6 +1,5 @@
 package genetics.neurocreature;
 
-public abstract class NeuroMutationFunction
-{
+public abstract class NeuroMutationFunction {
 	abstract void mutate(NeuroCreature a);
 }
