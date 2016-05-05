@@ -1,6 +1,17 @@
 package genetics.neurocreature;
 
+/**
+ * Класс NeuroCrossSimple - наследник класса NeuroCrossFunction, реализующий
+ * функцию скрещивания для генотипа в виде матрицы весов.
+ * @author Tutynin Vladimir
+ */
 public class NeuroCrossSimple extends NeuroCrossFunction {
+	/**
+	 * Реализация стратегии скрещивания для особи с генотипом 
+	 * в виде матрицы весов.
+	 * @param a Первая скрещиваемая особь.
+	 * @param b Вторая скрещиваемая особь.
+	 */
 	void cross(NeuroCreature a, NeuroCreature b) {
 		double olda[][][];
 		double newa[][][];

@@ -1,6 +1,17 @@
 package genetics.neurocreature;
 
+/**
+ * Класс NeuroMutationOneWeight - наследник класса NeuroMutationFunction, 
+ * реализующий функцию мутации одного веса для особи 
+ * в виде матрицы весов.
+ * @author Tutynin Vladimir
+ */
 public class NeuroMutationOneWeight extends NeuroMutationFunction {
+	/**
+	 * Реализация стратегии мутации одного веса для особи с генотипом 
+	 * в виде матрицы весов.
+	 * @param a Мутирующая особь.
+	 */
 	void mutate(NeuroCreature a) {
 		int l, n = 0;
 		double tmp2;

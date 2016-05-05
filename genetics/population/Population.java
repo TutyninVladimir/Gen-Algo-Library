@@ -12,6 +12,11 @@ import genetics.graphcreature.GraphMutationOneChange;
 import genetics.selecting.SelectingMax;
 import genetics.stopping.StoppingMaxNotChanged;
 
+/**
+ * Класс Population - основной класс библиотеки, предназначенный для работы
+ * с популяцией и выполнением всех этапов генетического алгоритма.
+ * @author Tutynin Vladimir
+ */
 public class Population {
 	final double eps = 0.000001;
 
@@ -25,8 +30,25 @@ public class Population {
 	private Stopping st;
 	private int[] a;
 	private int turns;
-
-	public Population(int n, double chooses, double mutates, Creature c, Choosing ch, Selecting sel, Stopping st) {
+	
+	/**
+	 * Конструктор класса. Для создания популяции используется особь-прототип и 
+	 * объекты, отвечающие за реализацию стратегий выбора, отбора и останова. 
+	 * @param n Число особей в популяции.
+	 * @param chooses Доля скрещиваемых особей.
+	 * @param mutates Доля мутирующих особей.
+	 * @param mutates Доля мутирующих особей. 
+	 * @param c Особь-прототип, которая содержит набор данных (генотип), а также
+	 * операции работы с данными: скрещивание и мутация.
+	 * @param ch Объект-наследник класса Choosing, в котором реализована функция
+	 * выбора особей для скрещивания crossing.
+	 * @param sel Объект-наследник класса Selecting, в котором реализована функция
+	 * отбора особей select.
+	 * @param st Объект-наследник класса Stopping, в котором реализована функция
+	 * проверки условия остановки алгоритма isEnding.
+	 */
+	public Population(int n, double chooses, double mutates, Creature c, 
+	Choosing ch, Selecting sel, Stopping st) {
 		if (n < 0) {
 			n = 0;
 		}
@@ -57,7 +79,11 @@ public class Population {
 		this.chooses = chooses;
 		this.mutates = mutates;
 	}
-
+	
+	/**
+	 * Функция возвращает количество итераций алгоритма.
+	 * @return Число итераций в результате работы алгоритма.
+	 */
 	public int getTurns() {
 		return turns;
 	}
@@ -92,6 +118,11 @@ public class Population {
 		}
 	}
 
+	/**
+	 * Запуск алгоритма. Над популяцией производятся операции выбора
+	 * особей, скрещивания, мутации и отбора. Алгоритм выполняется до тех пор,
+	 * пока не будет выполнено условие останова.
+	 */
 	public void run() {
 		int n1 = cnt;
 		int n2 = cnt;
@@ -135,6 +166,11 @@ public class Population {
 		}
 	}
 
+	/**
+	 * Функция возвращает значение функции приспособленности у самой
+	 * приспособленной особи популяции.
+	 * @return Значение функции самой приспособленной особи.
+	 */	
 	public double getAnswer() {
 		double x = cr[0].fitness();
 		double tmp;
@@ -147,6 +183,10 @@ public class Population {
 		return x;
 	}
 
+	/**
+	 * Функция возвращает особь с наибольшим значением приспособленности.
+	 * @return Самая приспособленная особь популяции.
+	 */	
 	public Creature getAnswerCreature() {
 		double x = cr[0].fitness();
 		int q = 0;
@@ -162,6 +202,10 @@ public class Population {
 		return cr[q];
 	}
 
+	/**
+	 * Генерация произвольной популяции. Для каждой особи популяции генерируется
+	 * новое случаейное значение генотипа.
+	 */	
 	public void generateCreatures() {
 		for (int i = 0; i < cnt; i++) {
 			cr[i].generate();
@@ -169,23 +213,44 @@ public class Population {
 	}
 }
 
-
+/**
+ * Класс CreatureMachine - вспомогательный класс, используемый для создания
+ * популяции путём клонирования особи-прототипа.
+ * @author Tutynin Vladimir
+ */
 class CreatureMachine {
 	private Creature cr;
 
+	/**
+	 * Конструктор класса, для создания необходимо установить особь-прототип. 
+	 * @param cr Особь-прототип.
+	 */
 	public CreatureMachine(Creature cr) {
 		this.cr = cr;
 	}
 
+	/**
+	 * Установка особи-прототипа. 
+	 * @param cr Особь-прототип.
+	 */
 	public void setCreature(Creature cr) {
 		this.cr = cr;
 	}
 
+	/**
+	 * Функция клонирования особи. 
+	 * @return Новая особь.
+	 */
 	public Creature makeCreature() {
 		return (Creature) this.cr.clone();
 	}
 }
 
+/**
+ * Класс PopulationExample - класс для демонстрации работы генетического 
+ * алгоритма.
+ * @author Tutynin Vladimir
+ */
 class PopulationExample {
 	public static void main(String[] args) {
 		GraphCrossFunction scf = new GraphCrossExtended();

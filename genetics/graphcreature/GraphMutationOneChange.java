@@ -1,6 +1,17 @@
 package genetics.graphcreature;
 
+/**
+ *  ласс GraphMutationOneChange - наследник класса GraphMutationFunction, 
+ * реализующий функцию мутации одной перестановки дл€ особи 
+ * в виде массива неповтор€ющихс€ чисел от 1 до n.
+ * @author Tutynin Vladimir
+ */
 public class GraphMutationOneChange extends GraphMutationFunction {
+	/**
+	 * –еализаци€ стратегии мутации обмена соседних чисел дл€ особи с генотипом 
+	 * в виде массива неповтор€ющихс€ чисел от 1 до n.
+	 * @param a ћутирующа€ особь.
+	 */
 	void mutate(GraphCreature a) {
 		int m;
 		int q;

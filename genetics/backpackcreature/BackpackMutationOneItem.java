@@ -1,6 +1,17 @@
 package genetics.backpackcreature;
 
+/**
+ * Класс BackpackMutationOneItem - наследник класса BackpackMutationFunction, 
+ * реализующий функцию мутации одного предмета для 
+ * особи с генотипм в виде набора предметов.
+ * @author Tutynin Vladimir
+ */
 public class BackpackMutationOneItem extends BackpackMutationFunction {
+	/**
+	 * Реализация стратегии мутации одного предмета для особи с генотипом 
+	 * в виде набора предметов.
+	 * @param a Мутирующая особь.
+	 */
 	void mutate(BackpackCreature a) {
 		int n;
 		int u;

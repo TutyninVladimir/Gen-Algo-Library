@@ -3,9 +3,21 @@ package genetics.choosing;
 import genetics.population.Choosing;
 import genetics.population.Creature;
 
+/**
+ * Класс ChoosingRandom - наследник класса Choosing, реализующий функцию 
+ * случайного (равновероятного) выбора особей для скрещивания.
+ * @author Tutynin Vladimir
+ */
 public class ChoosingRandom extends Choosing {
 	final double eps=0.000001;
 	
+	/** Реализация стратегии случайного выбора особей для скрещивания. 
+	 * @param fraction Доля скрещиваемых особей.
+	 * @param n Число особей в популяции.
+	 * @param use Массив, в котором указываются, с какой особью будет 
+	 * скрещиваться i-я особь, -1 - особь не участвует в скрещивании.
+	 * @param cr Массив особей, представляющих исходную популяцию.
+	 */	
 	public void crossing(double fraction, int n, int[] use, Creature[] cr) {
 		double f;
 		int[] a = new int[n];

@@ -6,14 +6,35 @@ import genetics.selecting.SelectingMax;
 import genetics.stopping.StoppingIterations;
 import genetics.stopping.StoppingMaxNotChanged;
 
+/**
+ * Класс TestingModule предназначен для подбора параметров алгоритма, при которых
+ * популяция алгоритма будет наилучшим образом решать заданную задачу, то есть
+ * в результате работы будет получена особь с наибольшим значением функции 
+ * приспособленности, при этом будет минимизировно число запусков функции
+ * расчёта приспособленности особи.
+ * @author Tutynin Vladimir
+ */
 public class TestingModule {
 	public Population p;
 	private double testanswer = 0;
 	
+	/**
+	 * Функция получения наибольшего значения функции приспособленности, 
+	 * которое было получено в ходе тестирования популяций.
+	 * @return Наибольшее значение функции приспособленности
+	 */
 	double getanswer() {
 		return testanswer;
 	}
 
+	/**
+	 * Функция запуска тестирования процесса решения задачи популяциями с
+	 * различными параметрами. 
+	 * @param cr - Особь популяции.
+	 * @param eps - Погрешность, при которой разница между ответами будет 
+	 * считаться незначительной.
+	 * @return
+	 */
 	Population startTest(Creature cr, double eps) {
 		ChoosingManager ch = new ChoosingManager();
 		SelectingManager sel = new SelectingManager();
@@ -123,10 +144,18 @@ public class TestingModule {
 }
 
 
+/**
+ * Класс ChoosingManager содержит все стратегии выбора особей, которые
+ * будут использоваться модулем подбора параметров.
+ * @author Tutynin Vladimir
+ */
 class ChoosingManager {
 	final int n = 1;
 	Choosing a[];
 
+	/**
+	 * Инициализация стратегий выбора. 
+	 */
 	void init() {
 		a = new Choosing[n + 1];
 		a[1] = new ChoosingRandom();
@@ -134,10 +163,18 @@ class ChoosingManager {
 }
 
 
+/**
+ * Класс SelectingManager содержит все стратегии отбора особей, которые
+ * будут использоваться модулем подбора параметров.
+ * @author Tutynin Vladimir
+ */
 class SelectingManager {
 	final int n = 1;
 	Selecting a[];
 
+	/**
+	 * Инициализация стратегий отбора. 
+	 */
 	void init() {
 		a = new Selecting[n + 1];
 		a[1] = new SelectingMax();
@@ -145,10 +182,18 @@ class SelectingManager {
 }
 
 
+/**
+ * Класс StoppingManager содержит все стратегии останова, которые
+ * будут использоваться модулем подбора параметров.
+ * @author Tutynin Vladimir
+ */
 class StoppingManager {
 	final int n = 2;
 	Stopping a[];
 
+	/**
+	 * Инициализация стратегий останова. 
+	 */
 	void init() {
 		a = new Stopping[n + 1];
 		a[1] = new StoppingIterations(100);

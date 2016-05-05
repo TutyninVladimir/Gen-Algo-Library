@@ -1,6 +1,17 @@
 package genetics.simplecreature;
 
+/**
+ * Класс SimpleCrossOnePoint - наследник класса SimpleCrossFunction, реализующий
+ * функцию одноточечного кроссинговера для особи с генотипом в виде целого числа.
+ * @author Tutynin Vladimir
+ */
 public class SimpleCrossOnePoint extends SimpleCrossFunction {
+	/**
+	 * Реализация стратегии одноточечного кроссинговера для особи с генотипом 
+	 * в виде целого числа.
+	 * @param a Первая скрещиваемая особь.
+	 * @param b Вторая скрещиваемая особь.
+	 */
 	void cross(SimpleCreature a, SimpleCreature b) {
 		int m;
 		int q;

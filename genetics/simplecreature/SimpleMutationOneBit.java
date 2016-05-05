@@ -1,6 +1,17 @@
 package genetics.simplecreature;
 
+/**
+ * Класс SimpleMutationOneBit - наследник класса SimpleMutationFunction, 
+ * реализующий функцию мутации одного бита для 
+ * особи с генотипм в виде целого числа.
+ * @author Tutynin Vladimir
+ */
 public class SimpleMutationOneBit extends SimpleMutationFunction {
+	/**
+	 * Реализация стратегии мутации одного бита для особи с генотипом 
+	 * в виде целого числа.
+	 * @param a Мутирующая особь.
+	 */
 	void mutate(SimpleCreature a) {
 		int m;
 		int q;

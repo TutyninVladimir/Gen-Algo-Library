@@ -1,15 +1,35 @@
 package genetics.backpackcreature;
 
+/**
+ * Класс BackpackCreatureSimple - наследник класса SimpleCreature, 
+ * предназначенный для решения задачи о ранце. 
+ * @author Tutynin Vladimir
+ */
 public class BackpackCreatureSimple extends BackpackCreature {
 	public int max_weight;
 	public int costs[];
 	public int weights[];
 	
+	/**
+	 * Конструктор класса, идентичен конструктору класса BackpackCreature.
+	 * @param n Размер массива.
+	 * @param num_of_use Максимальное количество предметов одного типа, которые
+	 * можно взять в рюкзак.
+	 * @param c Объект, реализующий функцию скрещивания.
+	 * @param m Объект, реализующий функцию мутации.
+	 */
 	public BackpackCreatureSimple(int n, int num_of_use, 
 	BackpackCrossFunction c, BackpackMutationFunction m) {
 		super(n, num_of_use, c, m);
 	}
 	
+	/**
+	 * Инициализация начальных данных задачи: максимальной вместимости рюкзака и
+	 * характеристик предметов. 
+	 * @param max_weight Максимальная вместимость рюкзака.
+	 * @param cost Массив стоимостей предметов.
+	 * @param weight Массив весов предметов.
+	 */
 	public void init(int max_weight, int cost[], int weight[]) {
 		costs = new int[num_items];
 		weights = new int[num_items];
@@ -23,6 +43,11 @@ public class BackpackCreatureSimple extends BackpackCreature {
 		}
 	}
 
+	/**
+	 * Функция вычисления приспособленности, которая выражается как суммарная
+	 * стоимость набора.
+	 * @return Значение приспособленности.
+	 */
 	double fit() {
 		int weight = 0;
 		int tmp = 0;
@@ -58,6 +83,11 @@ public class BackpackCreatureSimple extends BackpackCreature {
 		return 0;
 	}
 	
+	/**
+	 * Функция вычисления набора предметов, с исключением первых премдетов в 
+	 * случае превышения максимума. 
+	 * @return Набор предметов особи.
+	 */
 	int[] getanswer() {
 		int weight = 0;
 		int t_items[];

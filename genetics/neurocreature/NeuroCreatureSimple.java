@@ -1,15 +1,33 @@
 package genetics.neurocreature;
 
+/**
+ * Класс NeuroCreatureSimple - наследник класса NeuroCreature, 
+ * предназначенный для решения задачи настройки нейронной сети. 
+ * @author Tutynin Vladimir
+ */
 public class NeuroCreatureSimple extends NeuroCreature {
 	private int examples;
 	private double in[][];
 	private double out[][];
 
+	/**
+	 * Конструктор класса, идентичен конструктору класса NeuroCreature.
+	 * @param n Число слоёв.
+	 * @param layers Число нейронов каждого слоя.
+	 * @param c Объект, реализующий функцию скрещивания.
+	 * @param m Объект, реализующий функцию мутации.
+	 */
 	public NeuroCreatureSimple(int n, int layers[], NeuroCrossFunction c, 
 	NeuroMutationFunction m) {
 		super(n, layers, c, m);
 	}
 
+	/**
+	 * Инициализация обучающей выборки.
+	 * @param n Количество обучающих примеров.
+	 * @param inputs Входные данные обучающих примеров.
+	 * @param outputs Выходные данные обучающих примеров.
+	 */
 	public void init(int n, double inputs[][], double outputs[][]) {
 		examples = n;
 		in = new double[n][this.layer[0]];
@@ -26,6 +44,11 @@ public class NeuroCreatureSimple extends NeuroCreature {
 		}
 	}
 
+	/**
+	 * Функция вычисления приспособленности, которая выражается как разность
+	 * между числом нейронов и суммароной ошибкой, вычисленной для всех примеров.
+	 * @return Значение приспособленности.
+	 */
 	double fit() {
 		double neuro[][] = new double[this.num_layers][];
 		double err = 0.0;
@@ -56,6 +79,11 @@ public class NeuroCreatureSimple extends NeuroCreature {
 		return layer[num_layers - 1] * examples - err;
 	}
 
+	/**
+	 * Функция получения ответа для заданных входных данных.
+	 * @param input Входной пример.
+	 * @return Ответ для данного примера.
+	 */
 	public double[] solve(double input[]) {
 		double neuro[][] = new double[this.num_layers][];
 		

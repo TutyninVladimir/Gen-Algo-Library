@@ -5,12 +5,26 @@ import java.util.Comparator;
 import genetics.population.Creature;
 import genetics.population.Selecting;
 
+/**
+ * Класс SelectingMax - наследник класса Selecting, реализующий функцию 
+ * отбора n2 особей с наибольшими значениями приспособленности.
+ * @author Tutynin Vladimir
+ */
 public class SelectingMax extends Selecting {
 	class Record {
 		int ind;
 		double value;
 	}
-
+	
+	/**
+	 * Реализация стратегии отбора особей с 
+	 * наибольшими значениеми приспособленности.
+	 * @param n1 Начальное число особей.
+	 * @param n2 Число особей после отбора.
+	 * @param use Массив, отражающий результат отбора, 0 - особь 
+	 * не входит в новое поколение, 1 - входит.
+	 * @param cr Массив особей, представляющих исходную популяцию.
+	 */
 	public void select(int n1, int n2, int[] use, Creature[] cr) {
 		Record[] a = new Record[n1];
 		for (int i = 0; i < n1; i++) {

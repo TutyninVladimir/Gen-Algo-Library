@@ -1,6 +1,19 @@
 package genetics.graphcreature;
 
+/**
+ *  ласс SimpleCrossOnePoint - наследник класса SimpleCrossFunction, реализующий
+ * функцию двухточечного кроссинговера с последующим восстановлением по
+ * правилу построени€ массива дл€ особи с генотипом 
+ * в виде массива неповтор€ющихс€ чисел от 1 до n.
+ * @author Tutynin Vladimir
+ */
 public class GraphCrossSimple extends GraphCrossFunction {
+	/**
+	 * –еализаци€ стратегии двухточечного кроссинговера дл€ особи с генотипом 
+	 * в виде массива неповтор€ющихс€ чисел от 1 до n.
+	 * @param a ѕерва€ скрещиваема€ особь.
+	 * @param b ¬тора€ скрещиваема€ особь.
+	 */
 	void cross(GraphCreature a, GraphCreature b) {
 		int tmp;
 		int olda[];

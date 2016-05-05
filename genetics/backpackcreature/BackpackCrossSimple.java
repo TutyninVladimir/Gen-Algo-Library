@@ -1,7 +1,17 @@
 package genetics.backpackcreature;
 
-public class BackpackCrossSimple extends BackpackCrossFunction
-{
+/**
+ * Класс BackpackCrossSimple - наследник класса BakpackCrossFunction, реализующий
+ * функцию скрещивания для особи с генотипом в виде набора предметов.
+ * @author Tutynin Vladimir
+ */
+public class BackpackCrossSimple extends BackpackCrossFunction {
+	/**
+	 * Реализация стратегии скрещивания для особи с генотипом 
+	 * в виде набора предметов.
+	 * @param a Первая скрещиваемая особь.
+	 * @param b Вторая скрещиваемая особь.
+	 */
 	void cross(BackpackCreature a, BackpackCreature b) {
 		int n;
 		int olda[];
