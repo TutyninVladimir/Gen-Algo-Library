@@ -1,0 +1,23 @@
+<project name="AntTesting" default="makejar">
+  <property name="lib.java" location ="lib"/>
+  <property name="build.dir" location="build"/>
+  <property name="build.classes.java" location="${build.dir}/class/java"/>
+  <target name="make.dirs" description="Making  of the auxillary dirs" >
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.classes.java}"/>
+  </target>
+  <target name="compiles" description="Compilation of the classes" depends="make.dirs">
+    <echo>Compilation ....</echo>  
+    <javac includeantruntime="false"  destdir="${build.classes.java}">
+      <src path="${lib.java}"/>
+    </javac>
+  </target>
+  <target name="makejar" description="Making jar-file" depends="compiles">
+    <echo>Making jar ....</echo>  
+    <jar destfile="GenAlgorithms.jar" basedir="${build.classes.java}">
+    <manifest>
+      <attribute name="Created-By" value="Tutynin Vladimir"/>
+    </manifest>
+    </jar>
+  </target>
+</project>
